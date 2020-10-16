@@ -1,0 +1,114 @@
+Protocollo di comunicazione per chat multi-canale
+
+Formato Progettuale Messaggio:
+
+	-Identificatore del mittente
+	-Orario di Invio
+	-Tipo messaggio
+        -Opzioni messaggio
+        -Contenuto del messaggio (Testo)
+
+	Identificatore del mittente:
+		-Indirizzo Ip
+		-Porta
+		-Altri Campi:
+			-Usercode
+	Orario di Invio:
+		-Data:
+			Nella forma dd/mm/aaaa
+		-Orario:
+			Nella forma hh:mm:ss
+		
+	Tipo messaggio:
+		Rappresenta la tipologia del messaggio che stiamo inviando:
+			-Testo (T)
+			-Sincronizzazione (S)
+			-Ack (A)
+			-Controllo (C)
+
+	Opzioni del messaggio:
+		Un valore di specifica relativo a cere tipologie di messaggio
+
+	Contenuto del messaggio:
+		Campo testuale riempito in caso di: 
+			messaggi (T)
+			Acquisizione Usernames (S)
+			
+		
+
+Formato Fisico Messaggio:
+
+	Identificatore del mittente:	8 	Byte
+
+		-Indirizzo IP:		4 	Byte
+		-Porta:			2 	Byte
+		-Usercode:		2 	Byte
+		
+	Orario Di Invio:		5	Byte
+		
+		-Data:			2	Byte
+			
+			-day (1-31): 	5	bit
+			-month (1-12):	4	bit
+			-year (0-100):	7	bit
+		
+		-Orario:		3	Byte
+			
+			-hour (0-23):	5	bit
+			-minute (0-59): 6	bit
+			-second (0-59): 6	bit
+
+	Tipo Messaggio (0-3):		1	Byte
+			
+	Opzioni Messaggio (Integer): 	4	Byte							
+	
+	Contenuto Messaggio (String):	1024	Byte
+
+
+Protocollo (Regole di utilizzo):
+	
+	Messaggi Testo (T):
+	
+		-Tipo Messaggio: 0
+		-Opzioni Messaggio: NULL
+		-Contenuto Messaggio: "messaggio"
+
+	Messaggi Sincronizzazione (S)
+		
+		Utili per:
+			primo accesso al sistema
+			Acquisizione Usernames canale
+
+		-Tipo Messaggio: 1
+        	-Opzioni Messaggio:
+			-Codice ID Canale (Se primo accesso al Sistema)
+			-Valore Numerico 0xffff (Per acquisizione usernames)
+		-Contenuto Messaggio:
+			Se Opt0xffff: Per ogni username da acquisire "usercode:username;"
+			Altrimenti NULL
+	Messaggi Ack (A):
+		
+		Utili alla comunicazione tra client e server
+
+		Tipo Messaggio: 2
+		Opzioni Messaggio:
+			-Valore numerico -1 se Operazione precedente non eseguita correttamente
+			-Valore numerico 0 se Operazione precedente eseguita correttamente
+		Contenuto Messaggio: 
+			Se Opt(-1): codice di errore (4 Byte)
+			Altrimenti NULL
+	
+	Messaggio Controllo (C):
+		
+		Utili per impartire comandi di controllo al server
+		
+		Tipo Messaggio: 3
+		Opzioni Messaggio:
+			Valore Numerico 1 per disconnettere dal canale corrente il client chiamante
+			Valore Numerico 2 per chiudere il canale corrente (Se mittente è il client proprietario)
+			
+		Contenuto Messaggio: NULL
+
+
+
+
