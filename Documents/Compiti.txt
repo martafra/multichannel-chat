@@ -1,0 +1,30 @@
+Compiti del server:
+
+	1) All'arrivo di un nuovo client:
+		a) Istanziare (se richiesto dal client) un nuovo canale
+		b) Aggiungere il client ad un canale già esistente (specificato)
+		c) Mostrare una lista dei canali correntemente attivi	
+
+	2) Per ogni canale:
+		a) Ricevere in input dai client un messaggio alla volta
+		b) Propagare il messaggio ricevuto agli altri client (presenti nel canale)
+		c) Su richiesta di un determinato client, lo rimuove dal canale
+		d) Su richiesta del client proprietario del canale lo chiude
+		e) Creare e mantenere un file di log
+
+	3) Chiudere un qualsiasi canale
+	4) Cacciare un client
+	
+
+
+Compiti del client:
+
+	Canale:
+		1) Creare un nuovo canale di conversazione
+		2) Effettuare la join ad un canale già esistente
+		3) Lasciare il canale di conversazione in cui si trova attualmente
+		4) Chiudere il canale se di propria creazione
+	Messaggistica:
+		5) Inviare messaggi di testo
+		6) Ricevere messaggi di testo
+		7) Mostrare su schermo i messaggi di testo ricevuti
